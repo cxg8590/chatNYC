@@ -30,7 +30,7 @@ const onJoined = (sock) => {
 		
 		const joinMsg = {
 			name: 'server',
-			msg: 'There are ${Object.keys(users).length} users online',
+			msg: 'There are ' + Object.keys(users).length + ' users online',
 		};
 		
 		socket.name = data.name;
@@ -40,7 +40,7 @@ const onJoined = (sock) => {
 		
 		const response = {
 			name: 'server',
-			msg: '${data.name} has joined the room.',
+			msg: data.name + ' has joined the room.',
 		};
 		socket.broadcast.to('room1').emit('msg', response);
 		
