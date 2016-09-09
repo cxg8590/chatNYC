@@ -74,6 +74,7 @@ const onMsg = (sock) => {
 const onDisconnect = (sock) => {
 	const socket = sock;
 	socket.on('disconnect', () => {
+		io.sockets.in('room1').emit('msg', { name: socket.name, msg: "has left the room" });
 		delete users[socket.name];
 		console.log("delete event: " + users);
 		socket.leave('room1');
