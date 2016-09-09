@@ -1,0 +1,20 @@
+{
+  "name": "wschat",
+  "version": "1.0.0",
+  "description": "web socket chat server",
+  "main": "./src/app.js",
+  "scripts": {
+    "test": "eslint .src",
+    "start": "node ./src/server.js"
+  },
+  "author": "Chris Granville",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^1.4.8"
+  },
+  "devDependencies": {
+    "eslint": "^3.4.0",
+    "eslint-config-airbnb": "^11.0.0",
+    "eslint-plugin-import": "^1.14.0"
+  }
+}
