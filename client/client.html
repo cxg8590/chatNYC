@@ -10,10 +10,35 @@
          online at your node.js address under /socket.io/socket.io.js 
          You can disable that on the server if desired
     -->
+    
+    <style>
+        body{
+            background-color: white;
+            color: black;
+            transition: background-color 5s ease;
+        }
+        body.NYC{
+            background-color: black;
+            color: white;
+        }
+        img{
+            position:absolute;
+            bottom:0;
+            width: 100%;
+            height: 0%;
+            transition: height 5s ease;
+        }
+        img.NYC{
+            height: 75%;
+        }
+    </style>
 	<script src ="/socket.io/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
 	<script type="text/babel">
 		var socket;
+        var Nyc = false;
+        var Nysayings = ["Bada Boom, Bada Bing","Fuggedaboudit", "I'm walkin here", "Only in New York! amiright?"];
+        var audio = new Audio("https://people.rit.edu/~cxg8590/music/NYC/nyc.mp3");
 	
 		const connectSocket = (e) => {
 			var message = document.querySelector("#message");
@@ -35,11 +60,25 @@
 				console.log(data);
 				chat.value += data.name + ": " + data.msg + "\n";
 			});
+            socket.on('NYC', () => {
+                NYC();
+                console.log("im walkin");
+            });
 		};
 		
 		const sendMessage = (e) => {
-			var message = document.querySelector("#message");
-			socket.emit('msgToServer', message.value);
+            if(Nyc){
+                var message = document.querySelector("#message");
+                var rand = Math.floor(Math.random() * 4);
+                message.value = Nysayings[rand];
+                socket.emit('msgToServer', message.value);
+            }
+			if(Nyc == false){
+                var message = document.querySelector("#message");
+                console.log("message"+message);
+                console.log("message value"+message.value);
+                socket.emit('msgToServer', message.value);
+            }
 		};
 		
 		/*const changeColor = (e) => {
@@ -52,6 +91,16 @@
 			connect.addEventListener('click', connectSocket);
 			msg.addEventListener('click', sendMessage);
 		};
+
+        const NYC = () => {
+            console.log("Welcome to NYC");
+            var bod = document.getElementById("norm");
+            bod.className += "NYC";
+            var img = document.getElementById("normimg");
+            img.className += "NYC";
+            audio.play();
+            Nyc = true;
+        }
 		
 		window.onload = init;
 	</script>
@@ -62,7 +111,7 @@
 		}
 	</style>
 </head>
-<body>
+<body id="norm">
 	<label for="user">Username:</label>
 	<input id="username" name="user" type="text"/>
 	<input id="connect" type='button' value='connect'/>
@@ -82,5 +131,7 @@
 	<p>\me = your username</p>
 	<p>\dNUM = roll a num sided die ex: \d6 \d20</p>
 	<p>\num = how many people are here</p>
+    <p>\imwalkinhere = nyc</p>
+    <img src="https://people.rit.edu/~cxg8590/pics/ny/NYCskyline.png" id="normimg"/>
 </body>
 </html>

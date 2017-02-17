@@ -64,6 +64,10 @@ const onMsg = (sock) => {
 			if(data.substring(0, 4) == "\\num"){
 				data = "There are " + Object.keys(users).length + " users here now";
 			}
+            if(data.substring(0, 13) == "\\imwalkinhere"){
+				io.sockets.in('room1').emit('NYC', { name: socket.name, msg: data });
+                data = "Bada Bing";
+			}
 		}
 		io.sockets.in('room1').emit('msg', { name: socket.name, msg: data });
 		console.log("Users num: " + Object.keys(users).length);
